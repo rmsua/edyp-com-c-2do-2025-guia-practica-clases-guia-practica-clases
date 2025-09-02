@@ -4,7 +4,7 @@
 class Camion:
     patentes=[]
     camiones=[]
-    def __init__(self, patente: str, marca: str, carga: int, anio: int):
+    def __init__(self, patente: str, marca: str,carga: int, anio: int):
         self.patente = patente
         self.marca = marca
         self.carga = carga
@@ -30,6 +30,12 @@ class Camion:
     def getter_carga(self):
         return self.carga
     
+    def getter_marca(self):
+        return self.marca
+    
+    def getter_anio(self):
+        return self.anio
+    
     def setter_pat(self,patente: str):
         self.patente=patente
         
@@ -42,7 +48,21 @@ class Camion:
     
 furgon1 = Camion("ABC123", "Mercedes", 1000, 2020)
 furgon2 = furgon1
-print(furgon2)
+furgones = [
+    ("AAA111", "Mercedes", 1200, 2018),
+    ("BBB222", "Volvo", 1500, 2019),
+    ("CCC333", "Scania", 1800, 2020),
+    ("DDD444", "Iveco", 1000, 2017),
+    ("EEE555", "Renault", 1300, 2021),
+    ("FFF666", "Ford", 1100, 2016),
+    ("GGG777", "MAN", 2000, 2022),
+    ("HHH888", "Peugeot", 900, 2015),
+    ("III999", "Toyota", 1400, 2023),
+    ("JJJ000", "Hyundai", 1600, 2024),
+]
+for pat, marca, carga, anio in furgones:
+    Camion(pat, marca, carga, anio)
+
 # furgon3 = Camion("DEF456", "Volvo", 2000, 2021)
 # furgon4 = Camion("ABC123", "Mercedes", 1000, 2020)
 
@@ -93,11 +113,37 @@ def modificar_carga():
             if not carga[i].isdigit():
                 check=False
                 print('El valor de carga ingresado no es válido. Vuelva a intentarlo.') 
+        if check:
+            if int(carga)<=0:
+                check=False
+                print('El valor de carga ingresado no es válido. Vuelva a intentarlo.') 
     for cam in Camion.camiones:
         if cam.patente==pat:
             furgon=cam            
     furgon.setter_carga(int(carga))
     print(f'Se modificó con éxito el valor de la carga a {carga}.')
+    
+def mostrar_lista_camiones():
+    lanios=[]
+    lcam=[]
+    lista=[]
+    for cam in Camion.camiones:
+        lanios.append((cam.getter_anio(),cam))
+    lanios=sorted(lanios, key=lambda x: x[0])
+    for i in range(len(lanios)):
+        lcam.append((lanios[i])[1])
+    for cam in lcam:
+        lista.append(cam.__str__())
+    print (lista)
+    
+def mostrar_marca_moda():
+    lmarcas=[]
+    for furgon in Camion.camiones:
+        lmarcas.append(furgon.getter_marca())
+    marca_moda=max(lmarcas, key=lmarcas.count)
+    print(f'La marca con más camiones registrados es: {marca_moda}.')
+            
+    
         
 
 def menu():
@@ -112,6 +158,10 @@ def menu():
         regi_nuev_camion()
     if opc=='2':
         modificar_carga()
+    if opc=='3':
+        mostrar_lista_camiones()
+    if opc=='4':
+        mostrar_marca_moda()
           
 menu()
 
